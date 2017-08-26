@@ -1,7 +1,7 @@
 defmodule BrodEx.Config do
   @moduledoc false
 
-  @type endpoint :: {binary, integer} | {}
+  @type endpoint :: {charlist, pos_integer} | {}
   @type endpoints :: [endpoint]
 
   @type client_option :: {:endpoints, endpoints | String.t} |
