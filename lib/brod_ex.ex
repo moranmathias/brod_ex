@@ -14,6 +14,19 @@ defmodule BrodEx do
     end
   end
 
+  @doc "Start BrodEx application."
+  @spec start() :: :ok | no_return
+  def start do
+    :brod.start()
+  end
+
+  @doc "Application behaviour callback"
+  defdelegate start(_start_type, _args), to: :brod
+
+  @doc "Stop brod application."
+  @spec stop() :: :ok
+  defdelegate stop(), to: :brod
+
   @doc """
   Start a client.
   BootstrapEndpoints:
@@ -75,8 +88,8 @@ defmodule BrodEx do
     start_client(bootstrap_endpoints, client_id, [])
   end
 
-  @spec start_client(endpoint | endpoints | [tuple], :brod.client, :brod.client_config) ::
-                                        :ok | {:error, any}
+  @spec start_client(endpoint | endpoints | [tuple],
+                     :brod.client, :brod.client_config) :: :ok | {:error, any}
   def start_client(bootstrap_endpoints, client_id, config)
   def start_client(bootstrap_endpoints, client_id, config) when is_binary(bootstrap_endpoints) do
     endpoints = Config.parse_endpoints(bootstrap_endpoints)
@@ -89,8 +102,9 @@ defmodule BrodEx do
 
   defdelegate start_client(endpoints, client_id, config), to: :brod
 
-  @spec start_link_client(endpoint | endpoints | [tuple], :brod.client, :brod.client_config) ::
-                                        {:ok, pid} | {:error, any}
+  @spec start_link_client(endpoint | endpoints | [tuple],
+                          :brod.client, :brod.client_config) :: {:ok, pid} |
+                                                                {:error, any}
   def start_link_client(bootstrap_endpoints, client_id, config)
   def start_link_client(bootstrap_endpoints, client_id, config) when is_binary(bootstrap_endpoints) do
     endpoints = Config.parse_endpoints(bootstrap_endpoints)
@@ -118,7 +132,6 @@ defmodule BrodEx do
     |> Config.parse_endpoints
     |> :brod.get_metadata(topics)
   end
-
 
   @doc """
     Fetch broker metadata
@@ -175,6 +188,7 @@ defmodule BrodEx do
   @spec fetch(endpoints, :brod.topic, :brod.partition, :brod.offset,
               non_neg_integer, non_neg_integer, pos_integer) ::
                 {:ok, [Records.kafka_message]} | {:error, any}
+  # credo:disable-for-next-line
   def fetch(endpoints, topic, partition,
             offset, max_wait_time, min_bytes, max_bytes) do
     fetch(endpoints, topic, partition,
@@ -313,9 +327,9 @@ defmodule BrodEx do
                       | {:producer_not_found, :brod.topic, :brod.partition}
   defdelegate get_producer(client, topic, partition), to: :brod
 
-
   @doc "equiv produce(pid, 0, <<>>, value)"
-  @spec produce(pid, :brod.value) :: {:ok, Records.brod_call_ref} | {:error, any}
+  @spec produce(pid, :brod.value) :: {:ok, Records.brod_call_ref} |
+                                     {:error, any}
   defdelegate produce(pid, value), to: :brod
 
   @doc """ 
@@ -343,7 +357,6 @@ defmodule BrodEx do
                 :brod.value) :: {:ok, Records.brod_call_ref} | {:error, any}
   defdelegate produce(client, topic, part_fun, key, value), to: :brod
 
-
   @doc "equiv produce_sync(Pid, 0, <<>>, value)"
   @spec produce_sync(pid, :brod.value) :: :ok
   defdelegate produce_sync(pid, value), to: :brod
@@ -356,7 +369,6 @@ defmodule BrodEx do
   """
   @spec produce_sync(pid, :brod.key, :brod.value) :: :ok | {:error, any}
   defdelegate produce_sync(pid, key, value), to: :brod
-
 
   @doc """
     Sync version of produce/5
@@ -390,7 +402,6 @@ defmodule BrodEx do
                                                       :ok | {:error, any}
   defdelegate start_consumer(client, topic_name, consumer_config), to: :brod
 
-
   @spec get_consumer(:brod.client, :brod.topic, :brod.partition) ::
             {:ok, pid} | {:error, reason}
             when reason: :client_down
@@ -419,7 +430,6 @@ defmodule BrodEx do
 
   @spec subscribe(pid, pid, :brod.consumer_options) :: :ok | {:error, any}
   defdelegate subscribe(consumer_pid, subscriber_pid, options), to: :brod
-
 
   @doc "Unsubscribe the current subscriber. Assuming the subscriber is self."
   @spec unsubscribe(:brod.client, :brod.topic,

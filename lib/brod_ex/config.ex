@@ -20,15 +20,15 @@ defmodule BrodEx.Config do
   @spec parse_endpoints([String.t] | String.t) :: endpoints
   def parse_endpoints(endpoints) when is_bitstring(endpoints) do
     endpoints
-    |> String.split([";"," "], trim: true)
-    |> parse_endpoints  
+    |> String.split([";", " "], trim: true)
+    |> parse_endpoints
   end
 
   def parse_endpoints(endpoints) do
     endpoints
     |> Enum.map(&parse_endpoint/1)
     |> Enum.filter(fn {_, _} -> true
-                      _ -> false 
+                      _ -> false
                    end)
   end
 
