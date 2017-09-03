@@ -486,4 +486,11 @@ defmodule BrodEx do
   defdelegate start_link_topic_subscriber(client, topic, partitions,
                               consumer_config, cb_module,
                               cb_init_arg), to: :brod
+
+  @spec group_consumer_ack(pid, :brod.topic,
+                           :brod.partition, :brod.offset) :: :ok
+  defdelegate group_consumer_ack(subscriber_pid,
+                                 topic,
+                                 partition,
+                                 offset), to: :brod_group_subscriber, as: :ack
 end
