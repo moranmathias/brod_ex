@@ -13,12 +13,12 @@ defmodule BrodEx.Client do
 
       @type endpoint :: String.t
       @type endpoints :: [endpoint] | String.t
-      
+
       def start_link(opts \\ []) do
         Config.build_config(unquote(config))
-        :brod.start(:normal, nil)
+        :brod.start()
       end
-      
+
     end
   end
 end

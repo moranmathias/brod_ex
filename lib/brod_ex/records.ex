@@ -44,16 +44,19 @@ defmodule BrodEx.Records do
         error_code: :brod.error_code(),
         error_desc: binary()
         )
-  defrecord :kafka_group_member_metadata, extract(:kafka_group_member_metadata, from_lib: "brod/include/brod.hrl")
+  defrecord :kafka_group_member_metadata,
+            extract(:kafka_group_member_metadata, from_lib: "brod/include/brod.hrl")
 
-  @type kafka_group_member_metadata :: record(:kafka_group_member_metadata, 
+  @type kafka_group_member_metadata :: record(
+        :kafka_group_member_metadata,
         version: non_neg_integer(),
         topics: [:brod.topic()],
         user_data: binary())
-  
-  defrecord :brod_received_assignment, extract(:brod_received_assignment, from_lib: "brod/include/brod.hrl")
 
-  @type brod_received_assignment :: record(:brod_received_assignment, 
+  defrecord :brod_received_assignment,
+            extract(:brod_received_assignment, from_lib: "brod/include/brod.hrl")
+
+  @type brod_received_assignment :: record(:brod_received_assignment,
           topic: :brod.topic(),
           partition: :brod.partition(),
           begin_offset: :undefined | :brod.offset())
