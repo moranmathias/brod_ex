@@ -1,4 +1,5 @@
 defmodule BrodEx.Mixfile do
+  @moduledoc false
   use Mix.Project
 
   def project do
@@ -8,7 +9,12 @@ defmodule BrodEx.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
-     dialyzer: [plt_add_deps: :transitive]]
+     dialyzer: [plt_add_deps: :transitive],
+     name: "BrodEx",
+     source_url: "https://github.com/moranmathias/brod_ex",
+     description: "Brod wrapper for elixir",
+     package: package()
+    ]
   end
 
   # Configuration for the OTP application
@@ -32,5 +38,16 @@ defmodule BrodEx.Mixfile do
     [{:brod, "~> 3.0.0", runtime: false},
      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}]
+  end
+
+  defp package do
+    [
+      name: "brod_ex",
+      # These are the default files included in the package
+      files: ["lib", "config", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      maintainers: ["Matias Moran Losada"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/moranmathias/brod_ex"}
+    ]
   end
 end
