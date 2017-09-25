@@ -16,7 +16,7 @@ defmodule BrodEx.Client do
 
       def start_link(opts \\ []) do
         Config.build_config(unquote(config))
-        :brod.start()
+        :brod.start(:normal, nil)
       end
 
     end

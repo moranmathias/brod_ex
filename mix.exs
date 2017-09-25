@@ -37,14 +37,15 @@ defmodule BrodEx.Mixfile do
   defp deps do
     [{:brod, "~> 3.0.0", runtime: false},
      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
-     {:dialyxir, "~> 0.5", only: [:dev], runtime: false}]
+     {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+     {:ex_doc, ">= 0.0.0", only: :dev}]
   end
 
   defp package do
     [
       name: "brod_ex",
       # These are the default files included in the package
-      files: ["lib", "config", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      files: ["lib", "config", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Matias Moran Losada"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/moranmathias/brod_ex"}
