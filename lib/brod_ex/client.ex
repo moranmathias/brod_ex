@@ -4,7 +4,8 @@ defmodule BrodEx.Client do
   defmacro __using__(opts \\ []) do
     quote bind_quoted: [opts: opts] do
       otp_app = Keyword.fetch!(opts, :otp_app)
-      config  = Application.get_env(otp_app, __MODULE__, [])
+
+      @otp_app otp_app
 
       @default_brod_client :default_brod_client
 
@@ -15,10 +16,18 @@ defmodule BrodEx.Client do
       @type endpoints :: [endpoint] | String.t
 
       def start_link(opts \\ []) do
-        Config.build_config(unquote(config))
+        config  = Application.get_env(@otp_app, __MODULE__, [])
+        Config.build_config(config)
         :brod.start(:normal, nil)
       end
 
+      def child_spec(opts) do
+        %{
+          id: __MODULE__,
+          start: {__MODULE__, :start_link, [opts]},
+          type: :supervisor
+        }
+      end
     end
   end
 end
