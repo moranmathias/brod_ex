@@ -1,5 +1,7 @@
 defmodule BrodEx do
-  @moduledoc false
+  @moduledoc """
+  Main wrapper module for `:brod`.
+  """
 
   alias BrodEx.Records
   alias BrodEx.Config
@@ -21,7 +23,7 @@ defmodule BrodEx do
   end
 
   @doc "Application behaviour callback"
-  defdelegate start(_start_type, _args), to: :brod
+  defdelegate start(start_type, args), to: :brod
 
   @doc "Stop brod application."
   @spec stop() :: :ok
@@ -123,7 +125,7 @@ defmodule BrodEx do
   @doc """
     Fetch broker metadata
     Return the message body of metadata_response.
-    See `kpro_schema.erl' for struct details
+    See `kpro_schema.erl` for struct details
   """
   @spec get_metadata(endpoints, [:brod.topic]) ::
           {:ok, :kpro.struct} | {:error, any}
@@ -136,7 +138,7 @@ defmodule BrodEx do
   @doc """
     Fetch broker metadata
     Return the message body of metadata_response.
-    See `kpro_schema.erl' for struct details
+    See `kpro_schema.erl` for struct details
   """
   @spec get_metadata(endpoints, [:brod.topic], :brod.sock_opts) ::
           {:ok, :kpro.struct} | {:error, any}
@@ -253,7 +255,7 @@ defmodule BrodEx do
     managed by the coordinator-broker running at the given endpoint.
     Otherwise error codes will be returned in the result structs.
     Return `describe_groups_response' response body field named `groups'.
-    See `kpro_schema.erl' for struct details
+    See `kpro_schema.erl` for struct details
   """
   @spec describe_groups(endpoint, :brod.sock_opts, [:brod.group_id]) ::
           {:ok, [:kpro.struct]} | {:error, any}
@@ -287,7 +289,7 @@ defmodule BrodEx do
   @doc """
     Fetch committed offsets for ALL topics in the given consumer group.
     Return the `responses' field of the `offset_fetch_response' response.
-    See `kpro_schema.erl' for struct details.
+    See `kpro_schema.erl` for struct details.
   """
   @spec fetch_committed_offsets(endpoints,
                                 :brod.sock_opts,
@@ -301,7 +303,7 @@ defmodule BrodEx do
   end
 
   @doc """
-  Same as `fetch_committed_offsets/3', only work on the socket
+  Same as `fetch_committed_offsets/3`, only work on the socket
   connected to the group coordinator broker.
   """
   @spec fetch_committed_offsets(pid, :brod.group_id) ::
@@ -332,7 +334,7 @@ defmodule BrodEx do
                                      {:error, any}
   defdelegate produce(pid, value), to: :brod
 
-  @doc """ 
+  @doc """
     Produce one message if Value is binary or iolist,
     or a message set if Value is a (nested) kv-list, in this case Key
     is discarded (only the keys in kv-list are sent to kafka).
@@ -393,7 +395,7 @@ defmodule BrodEx do
                                           :ok | {:error, reason :: any}
   defdelegate sync_produce_request(call_ref, timeout), to: :brod
 
-  @doc """ 
+  @doc """
     Dynamically start a topic consumer.
     @see brod_consumer:start_link/5. for details about consumer config.
     @end
@@ -468,7 +470,7 @@ defmodule BrodEx do
                                           cb_init_arg), to: :brod
 
   @doc """
-    @equiv start_link_topic_subscriber(client, topic, 
+    @equiv start_link_topic_subscriber(client, topic,
                                       'all', consumer_config,
                                         cb_module, cb_init_arg)
   """
