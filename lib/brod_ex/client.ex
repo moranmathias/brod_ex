@@ -35,8 +35,6 @@ defmodule BrodEx.Client do
         clients = Application.get_env(:brod, :clients, [])
                   |> Keyword.merge([{__MODULE__, client_config}])
 
-        Application.put_env(:brod, :clients, clients)
-
         :brod.start_link_client(client_config[:endpoints], __MODULE__, client_config)
       end
 
