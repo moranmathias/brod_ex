@@ -4,6 +4,15 @@ defmodule BrodEx.Config do
   @type endpoint :: {charlist, pos_integer} | {}
   @type endpoints :: [endpoint]
 
+  def brod_client_config(config) do
+    [
+      endpoints: Keyword.fetch!(config, :endpoints) |> parse_endpoints,
+      reconnect_cool_down_seconds: Keyword.get(config, :reconnect_cool_down_seconds, 10),
+      auto_start_producers: Keyword.get(config, :auto_start_producers, true),
+      default_producer_config: Keyword.get(config, :default_producer_config, [])
+    ]
+  end
+
   @type client_option :: {:endpoints, endpoints | String.t} |
                          {:reconnect_cool_down_seconds, integer} |
                          {:auto_start_producers, boolean} |
